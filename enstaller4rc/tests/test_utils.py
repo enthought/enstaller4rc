@@ -1,8 +1,10 @@
 import textwrap
 import unittest
 
+from six import StringIO
+
 from ..errors import InvalidSyntax
-from ..utils import StringIO, parse_assignments
+from ..utils import parse_assignments
 
 
 class TestParseAssignments(unittest.TestCase):

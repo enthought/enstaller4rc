@@ -1,20 +1,12 @@
 import ast
-import sys
+import os.path
+
+import six
+
+from six.moves import urllib
 
 from .errors import InvalidSyntax
-
-
-PY2 = sys.version_info[0] == 2
-PY3 = sys.version_info[0] == 3
-
-
-if PY2:
-    string_types = (basestring,)
-    import StringIO
-    StringIO = StringIO.StringIO
-else:
-    string_types = (str,)
-    StringIO = io.StringIO
+from ._platform import ARCH, CUSTOM_PLAT, SUBDIR
 
 
 class _AssignmentParser(ast.NodeVisitor):
@@ -56,8 +48,44 @@ def parse_assignments(file_or_filename):
     file_or_filename: str, file object
         If a string, interpreted as a filename. File object otherwise.
     """
-    if isinstance(file_or_filename, string_types):
+    if isinstance(file_or_filename, six.string_types):
         with open(file_or_filename) as fp:
             return _AssignmentParser().parse(fp.read())
     else:
         return _AssignmentParser().parse(file_or_filename.read())
+
+
+def cleanup_url(url):
+    """
+    Ensure a given repo string, i.e. a string specifying a repository,
+    is valid and return a cleaned up version of the string.
+    """
+    p = urllib.parse.urlparse(url)
+    scheme, netloc, path, params, query, fragment = p[:6]
+
+    if scheme == "":
+        scheme = "file"
+
+    if scheme == "file":
+        netloc = os.path.expanduser(netloc)
+        path = os.path.expanduser(path)
+
+    if scheme in ('http', 'https', 'file'):
+        if not path.endswith('/'):
+            path += '/'
+    else:
+        raise ValueError("Unsupported scheme: {0!r}".format(url))
+
+    return urllib.parse.urlunparse((scheme, netloc, path, params, query, fragment))
+
+
+def fill_template_path(path):
+    path = path.replace('{ARCH}', ARCH)
+    path = path.replace('{SUBDIR}', SUBDIR)
+    path = path.replace('{PLATFORM}', CUSTOM_PLAT)
+    return path
+
+
+def fill_url(url):
+    url = fill_template_path(url)
+    return cleanup_url(url)

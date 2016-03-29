@@ -14,4 +14,5 @@ setup(
     author="David Cournapeau",
     author_email="davidc@enthougth.com",
     packages=["enstaller4rc", "enstaller4rc.tests"],
+    install_requires=["attrs >= 15.2.0", "six >= 1.10"],
 )

@@ -1,8 +1,8 @@
-class Enstaller4rcException(Exception):
+class Enstaller4rcError(Exception):
     pass
 
 
-class InvalidSyntax(Enstaller4rcException):
+class InvalidSyntax(Enstaller4rcError):
     def __init__(self, message, lineno=None, col_offset=None):
         self.message = message
         self.lineno = lineno
