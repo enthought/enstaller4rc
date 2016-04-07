@@ -1,0 +1,20 @@
+language: python
+sudo: false
+
+python:
+  - 2.7
+  - 3.4
+  - 3.5
+  - pypy
+
+install:
+   - pip install -U pip setuptools
+   - pip install -r dev_requirements.txt;
+   - python install -e
+
+script:
+   - coverage run -a -m haas enstaller4rc
+
+notifications:
+  email:
+    - davidc@enthought.com
