@@ -22,7 +22,7 @@ class UserPasswordAuth(object):
     @classmethod
     def from_encoded_auth(cls, encoded_auth):
         parts = (
-            base64.decodestring(encoded_auth.encode("utf8")).
+            base64.decodebytes(encoded_auth.encode("utf8")).
             decode("utf8").
             split(":")
         )
