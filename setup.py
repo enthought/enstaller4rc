@@ -1,7 +1,7 @@
 from setuptools import setup
 
 
-with open("README", "rt") as fp:
+with open("README.rst", "rt") as fp:
     DESCRIPTION = fp.read()
 
 
