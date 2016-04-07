@@ -1,5 +1,0 @@
-This is a small library to read an existing `.enstaller4rc` file without
-importing enstaller.
-
-This supports `.enstaller4rc` from the 4.6.X series until 4.8.X. It only
-supports parsing configuration, and purposedly does not support modifying them.
