@@ -11,7 +11,7 @@ Example::
 
         from enstaller4rc import Configuration
 
-        config = Configuration.from_path(".enstaller4rc")
+        config = Configuration.from_file(".enstaller4rc")
         print(config.auth)
         print(config.use_pypi)
         print(config.indexed_repositories)

@@ -21,7 +21,7 @@ _BROOD_PREFIX = "brood+"
 
 class Configuration(object):
     @classmethod
-    def from_path(cls, filename):
+    def from_file(cls, filename):
         """
         Create a new Configuration instance from the given file.
 
