@@ -7,7 +7,7 @@ with open("README.rst", "rt") as fp:
 
 setup(
     name="enstaller4rc",
-    version="0.0.1",
+    version="0.0.2.dev0",
     summary="Small, bundleable library to parse enstaller4rc files.",
     description=DESCRIPTION,
     license="BSD",
