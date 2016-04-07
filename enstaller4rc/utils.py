@@ -1,5 +1,6 @@
 import ast
 import os.path
+import sys
 
 import six
 
@@ -89,3 +90,32 @@ def fill_template_path(path):
 def fill_url(url):
     url = fill_template_path(url)
     return cleanup_url(url)
+
+
+def under_venv():
+    # Python3 and canopy have base_prefix which is different from prefix
+    # under a venv environment
+    return (hasattr(sys, "real_prefix") or
+            getattr(sys, "base_prefix", sys.prefix) != sys.prefix)
+
+
+def real_prefix():
+    if under_venv():
+        if hasattr(sys, "real_prefix"):
+            return sys.real_prefix
+        else:
+            return sys.base_prefix
+    else:
+        return sys.prefix
+
+
+def search_order():
+    """
+    Return a list of directories where to look for the configuration file.
+    """
+    paths = [sys.prefix]
+    paths.append(os.path.abspath(os.path.expanduser("~")))
+    if under_venv():
+        paths.append(real_prefix())
+
+    return [os.path.normpath(p) for p in paths]
