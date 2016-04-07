@@ -10,7 +10,7 @@ python:
 install:
    - pip install -U pip setuptools
    - pip install -r dev_requirements.txt;
-   - python install -e
+   - pip install -e .
 
 script:
    - coverage run -a -m haas enstaller4rc
