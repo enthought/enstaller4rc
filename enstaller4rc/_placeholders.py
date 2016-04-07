@@ -2,6 +2,7 @@ import base64
 import re
 
 from attr import attr, attributes
+from attr.validators import instance_of
 from six.moves import urllib
 
 from .errors import Enstaller4rcError
@@ -38,32 +39,10 @@ class APITokenAuth(object):
 
 
 @attributes
-class OldStyleRepositoryConfiguration(object):
-    store_url = attr()
-
-
-@attributes
-class CanopyRepositoryConfiguration(object):
-    store_url = attr()
-    use_pypi = attr(default=False)
-
-
-@attributes
-class BroodRepositoryConfiguration(object):
-    store_url = attr()
-    name = attr()
-
-
-@attributes
-class FSRepositoryConfiguration(object):
-    store_url = attr()
-
-
-@attributes
 class ProxyConfiguration(object):
     host = attr()
     scheme = attr(default="http")
-    port = attr(default=3128)
+    port = attr(default=3128, validator=instance_of(int))
     user = attr(default="")
     password = attr(default="")
 
