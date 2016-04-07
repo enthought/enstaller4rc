@@ -9,7 +9,9 @@ import six
 
 from ..config import Configuration
 from ..errors import Enstaller4rcError
-from .._placeholders import APITokenAuth, UserPasswordAuth
+from .._placeholders import (
+    APITokenAuth, ProxyConfiguration, UserPasswordAuth
+)
 
 
 def configuration_from_string(s):
@@ -76,10 +78,23 @@ class TestConfigurationDefault(unittest.TestCase):
 class TestConfigurationMisc(unittest.TestCase):
     def test_syntax_error(self):
         # Given
-        text = "a = [q]"
+        text = "a = [[]"
+        r_msg = (
+            "Could not parse configuration file \(invalid python "
+            "syntax at line 1: expression 'a = \[\[\]'\)"
+        )
+
+        # When/Then
+        with self.assertRaisesRegexp(Enstaller4rcError, r_msg) as exc:
+            configuration_from_string(text)
+
+    def test_unsupported_syntax(self):
+        # Given
+        text = "if True: repository_cache = None"
+
         r_msg = (
             "Could not parse configuration file \(error at line 1: "
-            "expression 'a = \[q\]' not supported\)"
+            "expression 'if True: repository_cache = None' not supported\)"
         )
 
         # When/Then
