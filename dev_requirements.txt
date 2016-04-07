@@ -1,3 +1,5 @@
 coverage
 haas
 mock
+twine
+wheel
